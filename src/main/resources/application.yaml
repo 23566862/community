@@ -1,4 +1,10 @@
-#ÅäÖÃÏîÄ¿Â·¾¶
+
 server:
 servlet:
 context-path: /
+
+#githubçš„idï¼Œå¯†é’¥ï¼Œå’Œé‡å®šå‘url
+github.setClient_id: b9225f6945ef5e6c3aa3
+github.setClient_secret: 867be0b43cb1c39de7473c8d4e1879294ba3edbc
+github.setRedirect_uri: http://localhost:8080/callback
+
