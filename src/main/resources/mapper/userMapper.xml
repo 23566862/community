@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.userMapper">
+
+    <insert id="addUser" parameterType="user">
+        insert into user( accountid, name, token, gmtcreate, gmtmodified)
+        values (#{accountid},#{name},#{token},#{gmtcreate},#{gmtmodified})
+    </insert>
+
+    <select id="finByToken" resultType="user" parameterType="string">
+    select * from db1.user where token=#{token}
+    </select>
+
+</mapper>
