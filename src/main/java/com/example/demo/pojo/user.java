@@ -12,14 +12,16 @@ public class user {
     private String token;
     private  long gmtcreate;
     private long gmtmodified;
+    private String img;
 
-    public user(String accountid, String mame, String token, long gmtcreate, long gmtmodified) {
-
+    public user(String accountid, String mame, String token, long gmtcreate, long gmtmodified,String img) {
         this.accountid = accountid;
         this.name = mame;
         this.token = token;
         this.gmtcreate = gmtcreate;
         this.gmtmodified = gmtmodified;
+        this.img=img;
+
     }
 
     public user() {

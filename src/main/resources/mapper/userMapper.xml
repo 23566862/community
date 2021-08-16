@@ -6,12 +6,16 @@
 <mapper namespace="com.example.demo.mapper.userMapper">
 
     <insert id="addUser" parameterType="user">
-        insert into user( accountid, name, token, gmtcreate, gmtmodified)
-        values (#{accountid},#{name},#{token},#{gmtcreate},#{gmtmodified})
+        insert into user( accountid, name, token, gmtcreate, gmtmodified,img)
+        values (#{accountid},#{name},#{token},#{gmtcreate},#{gmtmodified},#{img})
     </insert>
 
     <select id="finByToken" resultType="user" parameterType="string">
     select * from db1.user where token=#{token}
+    </select>
+
+    <select id="finById" resultType="user">
+      select * from db1.user where id=#{id}
     </select>
 
 </mapper>

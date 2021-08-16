@@ -49,7 +49,7 @@ public class authorize {
         if (gitHubUser !=null && gitHubUser.getLogin() !=null){
             //用户值存进数据库
             String token = UUID.randomUUID().toString();
-            user user = new user(String.valueOf(gitHubUser.getId()),gitHubUser.getLogin(),token,System.currentTimeMillis(),System.currentTimeMillis());
+            user user = new user(String.valueOf(gitHubUser.getId()),gitHubUser.getLogin(),token,System.currentTimeMillis(),System.currentTimeMillis(),gitHubUser.getAvatar_url());
             System.out.println("++++"+user.toString());
             userMapper.addUser(user);
            //存放进session
