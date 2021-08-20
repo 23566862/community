@@ -51,7 +51,11 @@ public class authorize {
             String token = UUID.randomUUID().toString();
             user user = new user(String.valueOf(gitHubUser.getId()),gitHubUser.getLogin(),token,System.currentTimeMillis(),System.currentTimeMillis(),gitHubUser.getAvatar_url());
             System.out.println("++++"+user.toString());
-            userMapper.addUser(user);
+            //如果当前用户在第一次登入就在数据库插入数据
+            user user1 = userMapper.finByToken(user.getToken());
+            if (user1 ==null){
+                userMapper.addUser(user);
+            }
            //存放进session
             request.getSession().setAttribute("user",gitHubUser);
             //把token存进cookie中

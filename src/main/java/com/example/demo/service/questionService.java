@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.dto.pagInitDTO;
 import com.example.demo.dto.questionDTO;
 import com.example.demo.mapper.questionMapper;
 import com.example.demo.mapper.userMapper;
@@ -17,9 +18,13 @@ public class questionService {
     private userMapper mapper;
     @Autowired
     private questionMapper questionMapper;
-    public List<questionDTO> getList() {
-        List<question> list = questionMapper.getList();
+
+    public pagInitDTO getList(int pag,int size) {
+        //pag 是当前页面所在下标
+       int  start=size*(pag-1);
+        List<question> list = questionMapper.getList(start, size);
         ArrayList< questionDTO>  questionDTOList = new ArrayList<>();
+        pagInitDTO pagInitDTO = new pagInitDTO();
         for (question question : list) {
             user user = mapper.finById(question.getCreator());
             questionDTO questionDTO = new questionDTO();
@@ -28,6 +33,12 @@ public class questionService {
             questionDTO.setUser(user);
             questionDTOList.add(questionDTO);
         }
-        return questionDTOList;
+        pagInitDTO.setQuestionDTO(questionDTOList);
+        int allCount = questionMapper.getAllCount();
+
+        System.out.println(allCount);
+        pagInitDTO.setParmInit(allCount,pag,size);
+
+        return pagInitDTO;
     }
 }

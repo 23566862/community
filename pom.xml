@@ -91,6 +91,14 @@
             <version>5.2.4</version>
         </dependency>
 
+        <!--tools 热部署-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <version>2.5.2</version>
+            <optional>true</optional>
+        </dependency>
+
 
 
 
@@ -120,6 +128,8 @@
                     <driver>com.mysql.cj.jdbc.Driver</driver>
                 </configuration>
             </plugin>
+
+
         </plugins>
 
 

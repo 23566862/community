@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 /*import com.example.demo.mapper.userMapper;*/
+import com.example.demo.dto.pagInitDTO;
 import com.example.demo.dto.questionDTO;
 import com.example.demo.mapper.questionMapper;
 import com.example.demo.mapper.userMapper;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +27,9 @@ public class IndexController {
     @RequestMapping("/")
     //首页判断携带的cookie是否在数据库中存在
     public String index(HttpServletRequest request,
-                        Model model){
+                        Model model,
+                        @RequestParam(value = "pag",defaultValue = "1") Integer pag,
+                        @RequestParam(value = "size",defaultValue = "5") Integer size){
         Cookie[] cookies = request.getCookies();
         if (cookies !=null && cookies.length !=0){
             for (Cookie cookie : cookies) {
@@ -39,9 +43,10 @@ public class IndexController {
                 }
             }
         }
-        List<questionDTO> list = questionService.getList();
-        System.out.println("index"+list.toString());
-        model.addAttribute("questionList",list);
+
+        pagInitDTO pagInitDTO = questionService.getList(pag, size);
+
+        model.addAttribute("questionList",pagInitDTO);
         return "index";
     }
 
