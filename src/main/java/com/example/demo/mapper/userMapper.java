@@ -12,4 +12,6 @@ public interface userMapper {
     user finByToken(@Param("token") String token);
 
     user finById(@Param("id")int id);
+    String finByName(@Param("name") String name);
+    user finByNameRsUser(@Param("name") String name);
 }

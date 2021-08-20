@@ -17,5 +17,11 @@
     <select id="finById" resultType="user">
       select * from db1.user where id=#{id}
     </select>
+    <select id="finByName" resultType="String">
+         select * from db1.user where name=#{name}
+    </select>
+    <select id="finByNameRsUser" resultType="user">
+        select * from db1.user where name=#{name}
+    </select>
 
 </mapper>

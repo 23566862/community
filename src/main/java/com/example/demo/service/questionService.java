@@ -23,7 +23,7 @@ public class questionService {
         //pag 是当前页面所在下标
        int  start=size*(pag-1);
         List<question> list = questionMapper.getList(start, size);
-        ArrayList< questionDTO>  questionDTOList = new ArrayList<>();
+        ArrayList<questionDTO>  questionDTOList = new ArrayList<>();
         pagInitDTO pagInitDTO = new pagInitDTO();
         for (question question : list) {
             user user = mapper.finById(question.getCreator());
@@ -40,5 +40,32 @@ public class questionService {
         pagInitDTO.setParmInit(allCount,pag,size);
 
         return pagInitDTO;
+    }
+
+    public pagInitDTO getlistByCreator(int id, Integer pag, Integer size) {
+        pagInitDTO pagInitDTO = new pagInitDTO();
+        int allCount = questionMapper.getAllCountById(id);
+
+
+
+
+        System.out.println("allcount:"+allCount);
+        pagInitDTO.setParmInit(allCount,pag,size);
+        List<question> listByCreator = questionMapper.getListByCreator(id, pag, size);
+        ArrayList<questionDTO>  questionDTOList = new ArrayList<>();
+        for (question question : listByCreator) {
+            user user = mapper.finById(question.getCreator());
+            questionDTO questionDTO = new questionDTO();
+            //快速给questionDTO赋值
+            BeanUtils.copyProperties(question,questionDTO);
+            questionDTO.setUser(user);
+            questionDTOList.add(questionDTO);
+        }
+        pagInitDTO.setQuestionDTO(questionDTOList);
+        System.out.println("id:"+id);
+
+        System.out.println(pagInitDTO);
+        return pagInitDTO;
+
     }
 }

@@ -19,19 +19,22 @@ public class pagInitDTO {
 
     public void setParmInit(int allCount, int pag, int size) {
         this.pag=pag;
-        if (allCount%size ==0){
-            totalPag=allCount/size;
-        }else {
-            totalPag=(allCount/size)+1;
+        this.totalPag=totalPag;
+        if (allCount % size == 0) {
+            pag = allCount / size;
+        } else {
+            pag = allCount / size + 1;
         }
 
         if (pag<0){
             pag=1;
-        }else if (pag>totalPag){
-            pag=totalPag;
+        }else if (pag>allCount){
+            pag=allCount;
         }
 
         pags.add(pag);
+
+
         for (int i = 1; i <=3 ; i++) {
             if (pag-i>0){
                 pags.add(0,pag-i);

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.thymeleaf.util.StringUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -52,19 +53,21 @@ public class authorize {
             user user = new user(String.valueOf(gitHubUser.getId()),gitHubUser.getLogin(),token,System.currentTimeMillis(),System.currentTimeMillis(),gitHubUser.getAvatar_url());
             System.out.println("++++"+user.toString());
             //如果当前用户在第一次登入就在数据库插入数据
-            user user1 = userMapper.finByToken(user.getToken());
-            if (user1 ==null){
+            if (!StringUtils.isEmpty(userMapper.finByName(user.getName()))){
+                //存放进session
+                request.getSession().setAttribute("user",gitHubUser);
+                //把token存进cookie中
+                System.out.println("user.getId()"+user.getName());
+                response.addCookie(new Cookie("name",user.getName()));
+                return "index";
+            }else{
                 userMapper.addUser(user);
             }
-           //存放进session
-            request.getSession().setAttribute("user",gitHubUser);
-            //把token存进cookie中
-            response.addCookie(new Cookie("token",token));
-            return "index";
+
         }else{
             return "index";
         }
 
-
+        return "error";
     }
 }

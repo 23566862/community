@@ -17,4 +17,12 @@
         select count(1) from question
     </select>
 
+    <select id="getListByCreator" resultType="question">
+        select * from question where creator=#{id} limit #{pag},#{size};
+    </select>
+
+    <select id="getAllCountById" resultType="int">
+        select count(1) from question where creator=#{id}
+    </select>
+
 </mapper>
