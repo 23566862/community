@@ -30,24 +30,7 @@ public class IndexController {
                         Model model,
                         @RequestParam(value = "pag",defaultValue = "1") Integer pag,
                         @RequestParam(value = "size",defaultValue = "5") Integer size){
-        Cookie[] cookies = request.getCookies();
-        if (cookies !=null && cookies.length !=0){
-            System.out.println(1);
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("name")){
-                    System.out.println(2);
-                    String name = cookie.getValue();
-                    System.out.println("name:"+name);
-                    user user = mapper.finByNameRsUser(name);
-                    System.out.println("index user:"+user);
-                    if (user !=null){
-                        request.getSession().setAttribute("user",user);
-                    }
-                    break;
-                }
-            }
 
-        }
         pagInitDTO pagInitDTO = questionService.getList(pag, size);
         model.addAttribute("questionList",pagInitDTO);
 

@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.example.demo.mapper.questionMapper;
 import com.example.demo.mapper.userMapper;
+import com.example.demo.pojo.question;
 import com.example.demo.pojo.user;
 //import com.example.demo.mapper.userMapper;
 import org.junit.jupiter.api.Test;
@@ -19,8 +20,8 @@ class DemoApplicationTests {
     DataSource dataSource;
     @Test
     void contextLoads() throws SQLException {
-        int allCountById = questionMapper.getAllCountById(10);
-        System.out.println(allCountById);
+        question questionById = questionMapper.getQuestionById(10);
+        System.out.println(questionById);
 
     }
 

@@ -35,8 +35,6 @@ public class questionService {
         }
         pagInitDTO.setQuestionDTO(questionDTOList);
         int allCount = questionMapper.getAllCount();
-
-        System.out.println(allCount);
         pagInitDTO.setParmInit(allCount,pag,size);
 
         return pagInitDTO;
@@ -44,13 +42,7 @@ public class questionService {
 
     public pagInitDTO getlistByCreator(int id, Integer pag, Integer size) {
         pagInitDTO pagInitDTO = new pagInitDTO();
-        int allCount = questionMapper.getAllCountById(id);
 
-
-
-
-        System.out.println("allcount:"+allCount);
-        pagInitDTO.setParmInit(allCount,pag,size);
         List<question> listByCreator = questionMapper.getListByCreator(id, pag, size);
         ArrayList<questionDTO>  questionDTOList = new ArrayList<>();
         for (question question : listByCreator) {
@@ -62,10 +54,31 @@ public class questionService {
             questionDTOList.add(questionDTO);
         }
         pagInitDTO.setQuestionDTO(questionDTOList);
-        System.out.println("id:"+id);
-
-        System.out.println(pagInitDTO);
+        int allCount = questionMapper.getAllCountById(id);
+        pagInitDTO.setParmInit(allCount,pag,size);
         return pagInitDTO;
 
+    }
+
+    public questionDTO getQuestionById(int id) {
+        question question = questionMapper.getQuestionById(id);
+        user user = mapper.finById(question.getCreator());
+        questionDTO questionDTO = new questionDTO();
+        BeanUtils.copyProperties(question,questionDTO);
+        questionDTO.setUser(user);
+        return questionDTO;
+    }
+
+    public void updateOrCreate(question question){
+        if (String.valueOf(question.getId()) =="null"){
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModified(System.currentTimeMillis());
+            System.out.println("1");
+            questionMapper.addQuestion(question);
+        }else{
+            question.setGmtModified(System.currentTimeMillis());
+            System.out.println("2");
+            questionMapper.updateQuestion(question);
+        }
     }
 }

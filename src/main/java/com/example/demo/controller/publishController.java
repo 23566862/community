@@ -4,6 +4,7 @@ import com.example.demo.mapper.questionMapper;
 import com.example.demo.mapper.userMapper;
 import com.example.demo.pojo.question;
 import com.example.demo.pojo.user;
+import com.example.demo.service.questionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
@@ -20,17 +21,21 @@ public class publishController {
     @Autowired
     questionMapper questionMapper;
     @Autowired
+    questionService questionService;
+    @Autowired
     userMapper mapper;
     @RequestMapping("/publish")
         public String publish(){
         return "publish";
         }
 
-        //*表单提交*//*
+        //*发布问题
+        // 表单提交*//*
     @PostMapping("/commitQuestion")
     public String commitQuestion(@RequestParam(name = "title")String title,
                                  @RequestParam(name = "description") String description,
                                  @RequestParam(name = "tag")String tag,
+                                 @RequestParam(name = "id")String  id,
                                  HttpServletRequest request, Model model){
 
         if (title==null || title==""){
@@ -47,38 +52,20 @@ public class publishController {
         }
 
         user user=null;
-        //根据cookie获取用户
-        Cookie[] cookies = request.getCookies();
-        if (cookies !=null && cookies.length !=0){
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("name")){
-                    String name = cookie.getValue();
-                    user = mapper.finByToken(name);
-                    if (user !=null){
-                        request.getSession().setAttribute("user",user);
-                    }
-                    break;
-                }
-            }
-        }
-
+        user = (user) request.getSession().getAttribute("user");
         if (user==null){
             model.addAttribute("error","当前没有登入");
             return "publish";
         }
-
             question question = new question();
             question.setTitle(title);
             question.setDescription(description);
             question.setTag(tag);
             question.setCreator(user.getId());
-            question.setGmtCreate(System.currentTimeMillis());
-            question.setGmtModified(System.currentTimeMillis());
-            questionMapper.addQuestion(question);
+            question.setId(Integer.parseInt(id));
+           questionService.updateOrCreate(question);
             return "redirect:/";
-
-
-
-
     }
+
+
 }

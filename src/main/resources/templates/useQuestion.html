@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${question.getTitle()}"></title>
+    <!--引入bootstrap的css和js-->
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/community.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <script src="/js/jquery-3.4.1.min.js" ></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+</head>
+<body>
+<div th:insert="~{common/head::head}"></div>
+<div class="container-fluid main" >
+    <div class="row" >
+        <div class="clo-lg-9 col-md-12 col-sm-12 col-xs-12 " >
+            <h2 th:text="${question.getTitle()}"><span class="glyphicon glyphicon glyphicon-list" aria-hidden="true"></span></h2>
+            <hr>
+            <span class="text-desc">
+                       作者:<span th:text="${question.getUser().getName()}"></span>
+                 | 发布于 <span th:text="${#dates.format(question.getGmtCreate(),'yyyy-MM-dd HH:mm ')}"></span>
+                 | 阅读数 <span></span>
+            </span>
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${question.getDescription()}" >
+            </div>
+            <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <a th:if="${session.user !=null && session.user.getId()==question.getUser().getId()}" th:href="@{'/updateQuestion/'+${question.getUser().getId()}}"  style="font-size: 14px" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+                <span class="glyphicon glyphicon-pencil">
+
+            </span>
+                编辑
+            </a>
+        </div>
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12"  >
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"  >
+                <br class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <h3>发起人</h3>
+                <div class="media" >
+                    <div class="media-left">
+                        <a href="#">
+                            <img class="media-object img-circle  " th:src="${question.getUser().getImg()}" >
+                        </a>
+                    </div>
+                    <div class="media-body">
+                        <a href="#"  class="media-heading" th:text="${question.getUser().getName()}"></a>
+
+                </div>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"  >
+                <h3>相关话题</h3>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</div>
+</body>
+</html>

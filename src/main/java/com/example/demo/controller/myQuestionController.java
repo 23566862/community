@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.pagInitDTO;
+import com.example.demo.dto.questionDTO;
 import com.example.demo.mapper.userMapper;
 import com.example.demo.pojo.user;
 import com.example.demo.service.questionService;
@@ -17,39 +18,26 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 public class myQuestionController {
-
     @Autowired
     private userMapper mapper;
     @Autowired
     private questionService questionService;
 
+    /*我的问题页面展示*/
     @RequestMapping("/question/{action}")
-    public String question(HttpServletRequest request,
+    public String AllQuestion(HttpServletRequest request,
                            @PathVariable(name = "action") String action,
                            Model model,
                            @RequestParam(value = "pag",defaultValue = "1") Integer pag,
                            @RequestParam(value = "size",defaultValue = "5") Integer size){
         user user=null;
-        Cookie[] cookies = request.getCookies();
-        if (cookies !=null && cookies.length !=0){
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("name")){
-                    String name = cookie.getValue();
-                     user = mapper.finByNameRsUser(name);
-                    if (user !=null){
-                        request.getSession().setAttribute("user",user);
-                    }
-                    break;
-                }
-            }
-        }
+        user = (user) request.getSession().getAttribute("user");
 
         if ("question".equals(action)){
             model.addAttribute("select","question");
             model.addAttribute("selectName","我的提问");
-
-
         }
+
         if ("reply".equals(action)){
             model.addAttribute("select","reply");
             model.addAttribute("selectName","我的回复");
@@ -59,4 +47,27 @@ public class myQuestionController {
         model.addAttribute("questionList",pagInitDTO);
         return "myQuestion";
     }
+
+
+    /*问题详情页*/
+    @RequestMapping("/UseQuestion/{id}")
+    public String UseQuestion(@PathVariable(name = "id") int id, Model model){
+        questionDTO questionById = questionService.getQuestionById(id);
+        model.addAttribute("question",questionById);
+        System.out.println("questionById:"+questionById);
+        return "useQuestion";
+    }
+
+    /*问题更新*/
+    @RequestMapping("/updateQuestion/{id}")
+    public String updateQuestion(@PathVariable(name ="id") int id, Model model){
+        questionDTO questionById = questionService.getQuestionById(id);
+        model.addAttribute("Title",questionById.getTitle());
+        model.addAttribute("Description",questionById.getDescription());
+        model.addAttribute("tag",questionById.getTag());
+        model.addAttribute("id",questionById.getId());
+        System.out.println("id"+id);
+        return "publish";
+    }
+
 }

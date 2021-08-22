@@ -16,4 +16,8 @@ public interface questionMapper {
     int getAllCount();
     List<question> getListByCreator(@Param("id") int id, @Param("pag") int pag, @Param("size") int size);
     int getAllCountById(@Param("id") int id);
+    question getQuestionById(@Param("id") int id);
+
+    void updateQuestion(question question);
+
 }

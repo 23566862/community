@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <title>社区论坛</title>
     <!--引入bootstrap的css和js-->
-    <link rel="stylesheet" href="css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="css/community.css"/>
-    <link rel="stylesheet" href="css/bootstrap-theme.min.css"/>
-    <script src="js/jquery-3.4.1.min.js" ></script>
-    <script src="js/bootstrap.min.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/community.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
+    <script src="/js/jquery-3.4.1.min.js" ></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
 </head>
 <body>
 
@@ -25,9 +25,14 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${list.getTitle()}"></h4>
+                    <a th:href="@{'/UseQuestion/'+${list.getId()}}" class="media-heading" th:text="${list.getTitle()}"></a>
                     <span th:text="${list.getDescription()}"></span><br>
-                   <span class="text-desc"><span th:text="${list.getCommentCount()}"></span>个回复•<span th:text="${list.getViewCount()}"></span>次浏览 •时间 <span th:text="${#dates.format(list.getGmtCreate(),'yyyy MMMM dd ')}"></span></span>
+                   <span class="text-desc">
+                       <span th:text="${list.getCommentCount()}">
+
+                   </span>
+                       个回复•<span th:text="${list.getViewCount()}"></span>
+                       次浏览 •时间 <span th:text="${#dates.format(list.getGmtCreate(),'yyyy-MM-dd HH:mm  ')}"></span></span>
                 </div>
             </div>
 
