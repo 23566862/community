@@ -10,18 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.sql.DataSource;
+import javax.swing.*;
 import java.sql.SQLException;
 
 @SpringBootTest
 class DemoApplicationTests {
-    @Autowired
-    questionMapper questionMapper;
+
     @Autowired
     DataSource dataSource;
     @Test
     void contextLoads() throws SQLException {
-        question questionById = questionMapper.getQuestionById(10);
-        System.out.println(questionById);
+        JOptionPane.showMessageDialog(null,"欢迎参加考试");
 
     }
 

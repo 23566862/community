@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dto.pagInitDTO;
 import com.example.demo.dto.questionDTO;
+import com.example.demo.exception.statusException;
 import com.example.demo.mapper.questionMapper;
 import com.example.demo.mapper.userMapper;
 import com.example.demo.pojo.question;
@@ -63,6 +64,9 @@ public class questionService {
     public questionDTO getQuestionById(int id) {
         question question = questionMapper.getQuestionById(id);
         user user = mapper.finById(question.getCreator());
+        if (user ==null){
+            throw new statusException("没有查找到当前问题");
+        }
         questionDTO questionDTO = new questionDTO();
         BeanUtils.copyProperties(question,questionDTO);
         questionDTO.setUser(user);
@@ -73,12 +77,17 @@ public class questionService {
         if (String.valueOf(question.getId()) =="null"){
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(System.currentTimeMillis());
-            System.out.println("1");
             questionMapper.addQuestion(question);
         }else{
             question.setGmtModified(System.currentTimeMillis());
-            System.out.println("2");
             questionMapper.updateQuestion(question);
         }
+    }
+
+    //阅读数+1
+    public void incViewCount(int id) {
+        question question = questionMapper.getQuestionById(id);
+        questionMapper.updateQuestion(question);
+
     }
 }

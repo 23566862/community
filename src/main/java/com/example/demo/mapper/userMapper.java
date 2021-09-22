@@ -10,8 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface userMapper {
     int addUser(user user);
     user finByToken(@Param("token") String token);
-
-    user finById(@Param("id")int id);
+    user finById(@Param("id") int id);
     String finByName(@Param("name") String name);
     user finByNameRsUser(@Param("name") String name);
 }

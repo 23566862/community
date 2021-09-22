@@ -52,9 +52,10 @@ public class myQuestionController {
     /*问题详情页*/
     @RequestMapping("/UseQuestion/{id}")
     public String UseQuestion(@PathVariable(name = "id") int id, Model model){
+        //阅读数+1
+        questionService.incViewCount(id);
         questionDTO questionById = questionService.getQuestionById(id);
         model.addAttribute("question",questionById);
-        System.out.println("questionById:"+questionById);
         return "useQuestion";
     }
 
