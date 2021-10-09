@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.commentMapper">
+
+    <insert id="insert" parameterType="comment">
+        insert into comment (parent_id,type,commentator,
+        gmt_create,gmt_modified,content) VALUES (#{parentId},#{type},
+        #{commentator},#{gmtCreate},#{gmtModified},#{content});
+    </insert>
+
+    <!--倒叙排列-->
+    <select id="getComment" resultType="comment">
+    select u.img,u.name ,c.*   from comment c ,user u where  parent_id=#{id} and type=#{type}  order by gmt_create desc ;
+    </select>
+
+
+
+</mapper>

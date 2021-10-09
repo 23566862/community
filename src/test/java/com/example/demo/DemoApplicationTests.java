@@ -1,26 +1,25 @@
 package com.example.demo;
 
-import com.example.demo.mapper.questionMapper;
-import com.example.demo.mapper.userMapper;
-import com.example.demo.pojo.question;
-import com.example.demo.pojo.user;
 //import com.example.demo.mapper.userMapper;
+import com.example.demo.dto.commentDTO;
+import com.example.demo.pojo.comment;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.sql.DataSource;
-import javax.swing.*;
-import java.sql.SQLException;
+        import java.sql.SQLException;
+import java.util.List;
 
 @SpringBootTest
 class DemoApplicationTests {
 
     @Autowired
-    DataSource dataSource;
+    com.example.demo.mapper.commentMapper commentMapper;
     @Test
     void contextLoads() throws SQLException {
-        JOptionPane.showMessageDialog(null,"欢迎参加考试");
+
+        List<comment> comment = commentMapper.getComment(6, 1);
+        System.out.println(comment);
 
     }
 

@@ -2,9 +2,12 @@ package com.example.demo.service;
 
 import com.example.demo.dto.pagInitDTO;
 import com.example.demo.dto.questionDTO;
+import com.example.demo.exception.errorCode;
 import com.example.demo.exception.statusException;
+import com.example.demo.mapper.commentMapper;
 import com.example.demo.mapper.questionMapper;
 import com.example.demo.mapper.userMapper;
+import com.example.demo.pojo.comment;
 import com.example.demo.pojo.question;
 import com.example.demo.pojo.user;
 import org.springframework.beans.BeanUtils;
@@ -19,7 +22,8 @@ public class questionService {
     private userMapper mapper;
     @Autowired
     private questionMapper questionMapper;
-
+    @Autowired
+    private commentMapper commentMapper;
     public pagInitDTO getList(int pag,int size) {
         //pag 是当前页面所在下标
        int  start=size*(pag-1);
@@ -37,7 +41,6 @@ public class questionService {
         pagInitDTO.setQuestionDTO(questionDTOList);
         int allCount = questionMapper.getAllCount();
         pagInitDTO.setParmInit(allCount,pag,size);
-
         return pagInitDTO;
     }
 
@@ -65,7 +68,7 @@ public class questionService {
         question question = questionMapper.getQuestionById(id);
         user user = mapper.finById(question.getCreator());
         if (user ==null){
-            throw new statusException("没有查找到当前问题");
+            throw new statusException(errorCode.QUESTION_NOT_FOUND);
         }
         questionDTO questionDTO = new questionDTO();
         BeanUtils.copyProperties(question,questionDTO);
@@ -80,7 +83,10 @@ public class questionService {
             questionMapper.addQuestion(question);
         }else{
             question.setGmtModified(System.currentTimeMillis());
-            questionMapper.updateQuestion(question);
+            int rest = questionMapper.updateQuestion(question);
+            if (rest !=1){
+                throw new statusException(errorCode.QUESTION_NOT_FOUND);
+            }
         }
     }
 
@@ -89,5 +95,15 @@ public class questionService {
         question question = questionMapper.getQuestionById(id);
         questionMapper.updateQuestion(question);
 
+    }
+
+    public List<comment> getCommentList(int id,int type){
+        List<comment> comment = commentMapper.getComment(id,type);
+        return comment;
+    }
+
+    public List<question> getWhereByTag(question question){
+        List<question> whereByTag = questionMapper.getWhereByTag(question);
+        return whereByTag;
     }
 }

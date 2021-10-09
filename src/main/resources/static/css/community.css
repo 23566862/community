@@ -18,3 +18,24 @@ body{ background: #efefef;}
     font-weight: normal;
     color: #999;
 }
+.btn {
+    float: right;
+    margin-top: 10px;
+}
+
+.huifu{
+    color: #999;
+    margin-top: 5px;
+}
+.huifu .icon{
+    margin-right: 10px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.huifu .icon:hover{
+    color: blue;
+}
+
+.media1{
+    margin-top: 20px;
+}

@@ -1,5 +1,7 @@
 package com.example.demo.mapper;
 
+import com.example.demo.dto.questionDTO;
+import com.example.demo.pojo.comment;
 import com.example.demo.pojo.question;
 import com.example.demo.pojo.user;
 import org.apache.ibatis.annotations.Mapper;
@@ -18,6 +20,7 @@ public interface questionMapper {
     int getAllCountById(@Param("id") int id);
     question getQuestionById(@Param("id") int id);
 
-    void updateQuestion(question question);
-
+    int updateQuestion(question question);
+    int updateCommentCount(@Param("id")int id);
+    List<question> getWhereByTag(question question);
 }
