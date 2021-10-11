@@ -4,19 +4,20 @@
     <meta charset="UTF-8">
     <title>问题发布</title>
     <!--引入bootstrap的css和js-->
-    <script src="/js/jquery-3.4.1.min.js" ></script>
+    <script src="/js/jquery-3.4.1.min.js"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="/css/community.css"/>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="/js/comment.js" type="application/javascript"></script>
 
 </head>
 <body>
 <div th:insert="~{common/head::head}"></div>
-<div class="container-fluid main" >
-    <div class="row" >
-        <div class="clo-lg-9 col-md-12 col-sm-12 col-xs-12 " style="width: 900px;" >
+<div class="container-fluid main">
+    <div class="row">
+        <div class="clo-lg-9 col-md-12 col-sm-12 col-xs-12 " style="width: 900px;">
             <h2><span class="glyphicon glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h2>
             <hr>
             <form action="/commitQuestion" method="post">
@@ -25,37 +26,43 @@
                     <label for="title">问题标题</label>
                     <input type="text" class="form-control" id="title" name="title" th:value="${Title}">
                     <span id="title1"></span>
-                    <!--问题：传给后端的值为空-->
-                    <!--<script>
-                        $(function () {
-                            $("#title").focus(function () {
-                                $.post({
-                                    url:"/titleAjax",
-                                    data:{"title":$("#title").val()},
-                                    success:function (data) {
-                                        if (data.toString() == 'true'){
-                                            $("#title1").css("color","green")
-                                        }
-                                        if (data.toString() == 'false'){
-                                            $("#title1").css("color","red")
-                                        }
-
-                                        $("#title1").html(data)
-                                    }
-
-                                })
-                            })
-                        })
-                    </script>-->
                     <label for="title">问题补充（必填：请参考右侧提示）</label>
-                    <textarea type="text"  th:text="${Description}" name="description" id="description" class="form-control"  cols="30" rows="10" ></textarea>
+                    <textarea type="text" th:text="${Description}" name="description" id="description"
+                              class="form-control" cols="30" rows="10"></textarea>
 
                     <label for="title">输入标签</label>
-                    <input type="text"   th:value="${tag} "class="form-control" id="tag"  name="tag">
+                    <input type="text" th:value="${tag} " class="form-control" id="tag" name="tag" onclick="showTag()" autocomplete="off">
                     <p></p>
                     <span class="alert alert-danger" th:if="${error} !=null" th:text="${error}"></span>
-                    <button type="submit" class="btn btn-success btn-publish">发布</button>
+
+
+
+
+
+
+
+                    <!--标签页 选则tag标签-->
+                    <div class="publis-tag-tab" style="display: none" id="divTag">
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-tabs" role="tablist" >
+                            <li role="presentation"  th:each="tagName:${tagList}" ><a th:href="${'#'+tagName.getName()}" aria-controls="home" role="tab" data-toggle="tab" th:text="${tagName.getName()}" ></a></li>
+                        </ul>
+
+                        <!-- Tab panes -->
+                        <div class="tab-content" style="width: 600px;height: 100px" >
+                            <div role="tabpanel" class="tab-pane active " th:id="${tagName.getName()}" th:each="tagName:${tagList}"  >
+                               <span th:each="selectTag:${tagName.getList()}" class="span-tag">
+                                <a class="label label-info" onclick="selectTag(this)" th:data-tag="${selectTag}" th:text="${selectTag}"></a>
+                                </span>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
                 </div>
+                <button type="submit" class="btn btn-success btn-publish">发布</button>
             </form>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12"

@@ -16,6 +16,7 @@ spring:
     type: com.mysql.cj.jdbc.MysqlDataSource
   flyway:
     baseline-on-migrate: true
+
   devtools:
     restart:
       enabled: true

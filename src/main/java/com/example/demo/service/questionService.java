@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dto.pagInitDTO;
 import com.example.demo.dto.questionDTO;
+import com.example.demo.dto.tagDTO;
 import com.example.demo.exception.errorCode;
 import com.example.demo.exception.statusException;
 import com.example.demo.mapper.commentMapper;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 @Service
 public class questionService {
@@ -77,16 +79,16 @@ public class questionService {
     }
 
     public void updateOrCreate(question question){
-        if (String.valueOf(question.getId()) =="null"){
+        System.out.println(1);
+        if (question.getId() ==0){
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(System.currentTimeMillis());
             questionMapper.addQuestion(question);
         }else{
+            System.out.println(2);
             question.setGmtModified(System.currentTimeMillis());
             int rest = questionMapper.updateQuestion(question);
-            if (rest !=1){
-                throw new statusException(errorCode.QUESTION_NOT_FOUND);
-            }
+
         }
     }
 
@@ -105,5 +107,22 @@ public class questionService {
     public List<question> getWhereByTag(question question){
         List<question> whereByTag = questionMapper.getWhereByTag(question);
         return whereByTag;
+    }
+
+    //添加标签
+    public List<tagDTO> getListTag(){
+        ArrayList<tagDTO> tagList = new ArrayList<>();
+        tagDTO tag = new tagDTO();
+        tag.setName("开发语言");
+        tag.setList(Arrays.asList("javascript", "php", "css", "html", "html5", "java", "node.js", "python", "c++", "c", "golang", "objective-c", "typescript", "shell", "swift", "c#", "sass", "ruby", "bash", "less", "asp.net", "lua", "scala", "coffeescript", "actionscript", "rust", "erlang", "perl"));
+        tagList.add(tag);
+
+        tagDTO tag1 = new tagDTO();
+        tag1.setName("开发框架");
+        tag1.setList(Arrays.asList("laravel", "spring", "express", "django", "flask", "yii", "ruby-on-rails", "tornado", "koa", "struts"));
+        tagList.add(tag1);
+
+        return tagList;
+
     }
 }

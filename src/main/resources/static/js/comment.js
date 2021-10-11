@@ -95,3 +95,22 @@ function showTowComment(e) {
 
 
 }
+
+//展示所有标签
+function showTag() {
+    //展示标签页
+    $("#divTag").show()
+}
+//选择标签
+function selectTag(e) {
+    var data = e.getAttribute("data-tag");
+    var  value=  $("#tag").val()
+    //如果当前标签没有添加才可以添加
+    if (value.indexOf(data) == -1){
+        if (value){
+            $("#tag").val(value+','+data)
+        }else{
+            $("#tag").val(data)
+        }
+    }
+}

@@ -25,7 +25,9 @@ public class publishController {
     @Autowired
     userMapper mapper;
     @RequestMapping("/publish")
-        public String publish(){
+        public String publish(Model model){
+        model.addAttribute("tagList",questionService.getListTag());
+        System.out.println(questionService.getListTag());
         return "publish";
         }
 
@@ -57,12 +59,18 @@ public class publishController {
             model.addAttribute("error","当前没有登入");
             return "publish";
         }
+
+        model.addAttribute("tagList",questionService.getListTag());
+
             question question = new question();
             question.setTitle(title);
             question.setDescription(description);
+            System.out.println("tag"+tag);
             question.setTag(tag);
             question.setCreator(user.getId());
-            question.setId(Integer.parseInt(id));
+            System.out.println(question);
+
+
            questionService.updateOrCreate(question);
             return "redirect:/";
     }
