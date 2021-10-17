@@ -24,4 +24,12 @@
         select * from db1.user where name=#{name}
     </select>
 
+    <select id="getUserForeach" resultType="user" flushCache="true"  >
+        select * from user where id in
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+
+    </select>
+
 </mapper>

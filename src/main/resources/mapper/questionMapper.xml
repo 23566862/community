@@ -41,4 +41,11 @@
     <select id="getWhereByTag" resultType="question" >
     select id ,title,tag from question where id!=#{id} and  tag regexp #{tag} ;
     </select>
+
+    <select id="getQuestionForeach" resultType="question">
+        select * from question where id in 
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+        #{id}
+        </foreach>
+    </select>
 </mapper>

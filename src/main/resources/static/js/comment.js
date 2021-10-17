@@ -12,23 +12,29 @@ function twoComment() {
 
 
 function common(parentId,content,type) {
+    console.log(parentId)
+    console.log(content)
+    console.log(type)
     if (parentId ==null){
         alert("请先登入")
-    }
-    $.ajax({
-        type: "POST",//请求类型
-        url: "/twoComment",//请求的url
-        data: {
-            parentId: parentId,
-            type:type
-        },//请求参数
-        dataType: "json",//ajax接口（请求url）返回的数据类型
-        success: function (data) {//data：返回数据（json对象）
-          /*刷新界面，重新加载*/
-            window.location.reload();
-        },
+    }else{
+        $.ajax({
+            type: "POST",//请求类型
+            url: "/twoComment",//请求的url
+            data: {
+                parentId: parentId,
+                content:content,
+                type:type,
+            },//请求参数
+            dataType: "json",//ajax接口（请求url）返回的数据类型
+            success: function (data) {//data：返回数据（json对象）
+                /*刷新界面，重新加载*/
+                window.location.reload();
+            },
 
-    });
+        });
+    }
+
 
 }
 

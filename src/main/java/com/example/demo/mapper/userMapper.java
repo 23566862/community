@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Mapper
 @Repository
 public interface userMapper {
@@ -13,4 +15,5 @@ public interface userMapper {
     user finById(@Param("id") int id);
     String finByName(@Param("name") String name);
     user finByNameRsUser(@Param("name") String name);
+    List<user> getUserForeach(@Param("list") List<Integer> list);
 }

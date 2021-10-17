@@ -18,7 +18,7 @@
             <h2 th:text="${selectName}"><span class="glyphicon glyphicon glyphicon-list" aria-hidden="true"></span></h2>
             <hr>
 
-            <div class="media" th:each="list:${questionList.getQuestionDTO()}">
+            <div th:if="${select == 'question'}" class="media" th:each="list:${questionList.getQuestionDTO()}">
                 <div class="media-left">
                     <a href="#">
                         <img class="media-object  " th:src="${list.getUser().getImg()}" >
@@ -28,11 +28,36 @@
                     <a th:href="@{'/UseQuestion/'+${list.getId()}}" class="media-heading" th:text="${list.getTitle()}"></a>
                     <br>
                     <span th:text="${list.getDescription()}"></span><br>
+                    <!--如果问题是当前登入用户发布 就可编辑-->
+                    <a th:if="${session.user !=null && session.user.getId()==list.getUser().getId()}"
+                       th:href="@{'/updateQuestion/'+${list.getUser().getId()}}" style="font-size: 14px"
+                       class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <span class="glyphicon glyphicon-pencil">
+                     </span>
+                        编辑
+                    </a>
                     <span class="text-desc"><span th:text="${list.getCommentCount()}"></span>个回复•<span th:text="${list.getViewCount()}"></span>次浏览 •时间 <span th:text="${#dates.format(list.getGmtCreate(),'yyyy MMMM dd ')}"></span></span>
                 </div>
             </div>
 
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:if="${select == 'reply'}">
+                <span style="display: none" ></span>
+                <div class="media" th:each="notificationDTO:${notificationDTOList}" >
+                    <div class="media-body" style="padding-top: 10px" >
+                        <p class="media-heading">
+                            <span th:text="${notificationDTO.getUser().getName()}+' '+${type}"></span>
+                            <a th:text="${notificationDTO.getQuestion().getTitle()}" th:href="@{'/UseQuestion/'+${notificationDTO.getQuestion().getId()}}">
+                            </a>
+                            <span class="label label-danger" th:if="${notificationDTO.getNotification().getStatus() ==0}">未读</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+
+
         </div>
+
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12"
              style="position: absolute;top: 89px;left: 1000px;width:500px;height: 380px">
             <h3>热门话题</h3>
@@ -41,11 +66,11 @@
                 <li role="presentation" th:class="${select == 'question'?'active':''}">
                     <a href="/question/question">
                     我的问题
-                    <span class="badge" style="float: right">4</span></a></li>
+                    <span class="badge" style="float: right" th:text="${questionCount}"></span></a></li>
                 <li role="presentation" th:class="${select == 'reply'?'active':''}">
                     <a href="/question/reply">
                     我的回复
-                    <span class="badge" style="float: right">4</span>
+                    <span class="badge" style="float: right" th:text="${replyCount}"></span>
                 </a></li>
                 <li role="presentation"><a href="#">
                     Messages
@@ -56,7 +81,7 @@
     </div>
 </div>
 
-<nav aria-label="Page-navigation" >
+<nav aria-label="Page-navigation" th:if="${select == 'question'}" >
     <ul class="pagination pagination-lg">
         <li  th:if="${questionList.isEndPag()}">
             <a th:href="@{'/question/'+${select}(pag=${questionList.getPag()-1})}">

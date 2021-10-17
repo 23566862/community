@@ -7,6 +7,7 @@ import com.example.demo.mapper.questionMapper;
 import com.example.demo.mapper.userMapper;
 import com.example.demo.pojo.question;
 import com.example.demo.pojo.user;
+import com.example.demo.service.notificationService;
 import com.example.demo.service.questionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,12 +25,22 @@ public class IndexController {
     private userMapper mapper;
     @Autowired
     private questionService questionService;
+    @Autowired
+    private notificationService notificationService;
     @RequestMapping("/")
     //首页判断携带的cookie是否在数据库中存在
     public String index(HttpServletRequest request,
                         Model model,
                         @RequestParam(value = "pag",defaultValue = "1") Integer pag,
                         @RequestParam(value = "size",defaultValue = "5") Integer size){
+
+        user user =(user) request.getSession().getAttribute("user");
+        System.out.println(user);
+        if (user !=null){
+            //查询未读通知条数
+            int count = notificationService.selectCountByStatus(0, user.getId());
+            request.getSession().setAttribute("count",count);
+        }
 
         pagInitDTO pagInitDTO = questionService.getList(pag, size);
         model.addAttribute("questionList",pagInitDTO);

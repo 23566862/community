@@ -5,9 +5,11 @@ import com.example.demo.dto.accessToken;
 import com.example.demo.pojo.user;
 import com.example.demo.provider.GitHubProvider;
 import com.example.demo.mapper.userMapper;
+import com.example.demo.service.notificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,8 +40,8 @@ public class authorize {
     @GetMapping("/callback")
     public String getCode(@RequestParam(name = "code") String code,
                           @RequestParam(name = "state")String state,
-                            HttpServletRequest request,
-                            HttpServletResponse response){
+                          HttpServletRequest request,
+                          HttpServletResponse response, Model model){
         accessToken accessToken = new accessToken();
         accessToken.setClient_id(setClient_id);
         accessToken.setClient_secret(setClient_secret);
@@ -59,6 +61,7 @@ public class authorize {
                 request.getSession().setAttribute("user",gitHubUser);
                 //把token存进cookie中
                 System.out.println("user.getId()"+user.getName());
+
                 response.addCookie(new Cookie("name",user.getName()));
                 return "index";
             }else{

@@ -23,4 +23,5 @@ public interface questionMapper {
     int updateQuestion(question question);
     int updateCommentCount(@Param("id")int id);
     List<question> getWhereByTag(question question);
+    List<question> getQuestionForeach(@Param("list") List<Integer> list);
 }
