@@ -3,15 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>问题发布</title>
-    <!--引入bootstrap的css和js-->
-    <script src="/js/jquery-3.4.1.min.js"></script>
-    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
     <link rel="stylesheet" href="/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css"/>
     <link rel="stylesheet" href="/css/community.css"/>
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+    <link rel="stylesheet" href="/css/editormd.min.css"/>
+    <link rel="stylesheet" href="/css/editormd.preview.min.css">
+    <!--引入bootstrap的css和js-->
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
     <script src="/js/comment.js" type="application/javascript"></script>
 
+    <script src="/js/editormd.min.js" type="application/javascript"></script>
+    <script src="/js/moment.js" type="application/javascript"></script>
+    <script src="/js/lib/marked.min.js"></script>
+    <script src="/js/lib/prettify.min.js"></script>
 </head>
 <body>
 <div th:insert="~{common/head::head}"></div>
@@ -26,9 +32,36 @@
                     <label for="title">问题标题</label>
                     <input type="text" class="form-control" id="title" name="title" th:value="${Title}">
                     <span id="title1"></span>
-                    <label for="title">问题补充（必填：请参考右侧提示）</label>
-                    <textarea type="text" th:text="${Description}" name="description" id="description"
-                              class="form-control" cols="30" rows="10"></textarea>
+                   <div class="clo-lg-9 col-md-12 col-sm-12 col-xs-12 " id="question-editor">
+                       <label for="title">问题补充（必填：请参考右侧提示）</label>
+                       <textarea type="text" th:text="${Description}" name="description" id="description" style="display: none"
+                                 class="form-control" cols="30" rows="10"></textarea>
+                   </div>
+                    <script type="text/javascript">
+                        $(function() {
+                            var editor = editormd("question-editor", {
+                                 width  : "100%",
+                                 height : 350 ,
+                                path   : "/js/lib/",
+                                saveHTMLToTextarea: true,
+                                searchReplace: true,
+                                emoji: true,
+                                delay: 0,
+                                watch: false,
+                                placeholder: "请输入问题描述",
+                                /*图片上传*/
+                                imageUpload: true,
+                                imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                                saveHTMLToTextarea: true, //注意：这个配置，方便post提交表单
+                                crossDomainUpload: true,
+                                imageUploadURL: "/file/upload",
+                            });
+
+                            setTimeout(function(){
+                                console.log(editor.getMarkdown());
+                            },500);
+                        });
+                    </script>
 
                     <label for="title">输入标签</label>
                     <input type="text" th:value="${tag} " class="form-control" id="tag" name="tag" onclick="showTag()" autocomplete="off">

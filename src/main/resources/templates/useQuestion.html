@@ -10,6 +10,12 @@
     <script src="/js/jquery-3.4.1.min.js"></script>
     <script src="/js/comment.js" type="application/javascript"></script>
     <script src="/js/bootstrap.min.js" type="application/javascript"></script>
+    <link rel="stylesheet" href="/css/editormd.min.css">
+    <link rel="stylesheet" href="/css/editormd.preview.min.css">
+    <script src="/js/editormd.min.js" type="application/javascript"></script>
+    <script src="/js/moment.js" type="application/javascript"></script>
+    <script src="/js/lib/marked.min.js"></script>
+    <script src="/js/lib/prettify.min.js"></script>
 </head>
 <body>
 <div th:insert="~{common/head::head}"></div>
@@ -28,8 +34,16 @@
             </span>
             </div>
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" th:text="${question.getDescription()}">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" id="question-view" >
+            <textarea style="display:none;" th:text="${question.getDescription()}" ></textarea>
             </div>
+            <script type="text/javascript">
+                $(function () {
+                    editormd.markdownToHTML("question-view", {});
+                });
+            </script>
+
+
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <span th:each="tag:${question.getTag().split(',')}">

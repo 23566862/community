@@ -36,12 +36,11 @@ public class IndexController {
 
         user user =(user) request.getSession().getAttribute("user");
         System.out.println(user);
-        if (user !=null){
+       /* if (user !=null){
             //查询未读通知条数
             int count = notificationService.selectCountByStatus(0, user.getId());
             request.getSession().setAttribute("count",count);
-        }
-
+        }*/
         pagInitDTO pagInitDTO = questionService.getList(pag, size);
         model.addAttribute("questionList",pagInitDTO);
 

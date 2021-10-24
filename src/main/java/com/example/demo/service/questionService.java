@@ -47,9 +47,11 @@ public class questionService {
     }
 
     public pagInitDTO getlistByCreator(int id, Integer pag, Integer size) {
+        //pag 是当前页面所在下标
+        int  start=size*(pag-1);
         pagInitDTO pagInitDTO = new pagInitDTO();
-
-        List<question> listByCreator = questionMapper.getListByCreator(id, pag, size);
+        List<question> listByCreator = questionMapper.getListByCreator(id, start, size);
+        System.out.println(listByCreator);
         ArrayList<questionDTO>  questionDTOList = new ArrayList<>();
         for (question question : listByCreator) {
             user user = mapper.finById(question.getCreator());
@@ -79,16 +81,13 @@ public class questionService {
     }
 
     public void updateOrCreate(question question){
-        System.out.println(1);
         if (question.getId() ==0){
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModified(System.currentTimeMillis());
             questionMapper.addQuestion(question);
         }else{
-            System.out.println(2);
             question.setGmtModified(System.currentTimeMillis());
             int rest = questionMapper.updateQuestion(question);
-
         }
     }
 

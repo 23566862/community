@@ -82,7 +82,10 @@ public class myQuestionController {
                 System.out.println("notifierList"+notifierList);
                 //2查询question表的数据 foreach查询 ，条件为 1集合的outerid
 
-                List<question> question = questionMapper.getQuestionForeach(outeridList);
+                List<question> question = new ArrayList<>();
+                for (int i = 0; i <outeridList.size() ; i++) {
+                    question.add(questionMapper.getQuestionById(outeridList.get(i))) ;
+                }
                 System.out.println("question"+question);
 
                 //3 查询user表的数据foreach查询 ，条件为 1集合的notifier
@@ -109,11 +112,11 @@ public class myQuestionController {
         model.addAttribute("questionCount",allCountById);
         int replyCount = notificationService.selectCountByStatus(0, user.getId());
         model.addAttribute("replyCount",replyCount);
-
         //便利的数据
         pagInitDTO pagInitDTO = questionService.getlistByCreator(user.getId(), pag, size);
-        model.addAttribute("questionList",pagInitDTO);
 
+        System.out.println(pagInitDTO);
+        model.addAttribute("questionList",pagInitDTO);
         return "myQuestion";
     }
 

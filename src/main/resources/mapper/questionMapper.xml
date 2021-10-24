@@ -10,7 +10,7 @@
     </insert>
 
     <select id="getList" resultType="question">
-        select *from question limit #{pag},#{size}
+        select *from question order by gmt_create desc limit #{pag},#{size}
     </select>
 
     <select id="getAllCount"  resultType="int">
@@ -18,7 +18,7 @@
     </select>
 
     <select id="getListByCreator" resultType="question">
-        select * from question where creator=#{id} limit #{pag},#{size};
+        select * from question  where creator=#{id} order by gmt_create desc limit #{pag},#{size} ;
     </select>
 
     <select id="getAllCountById" resultType="int">

@@ -69,8 +69,6 @@ public class publishController {
             question.setTag(tag);
             question.setCreator(user.getId());
             System.out.println(question);
-
-
            questionService.updateOrCreate(question);
             return "redirect:/";
     }

@@ -7,6 +7,8 @@ github.setClient_id: b9225f6945ef5e6c3aa3
 github.setClient_secret: 867be0b43cb1c39de7473c8d4e1879294ba3edbc
 github.setRedirect_uri: http://localhost:8080/callback
 
+
+
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/db1?useUnicode=true&servetTimezone=UTC&characterEncoding=utf-8
@@ -23,6 +25,11 @@ spring:
       additional-paths: src/main/java
   thymeleaf:
     cache: false
+  profiles:
+    active: aeolian
+  servlet:
+    multipart:
+      enabled: true
 
 
 

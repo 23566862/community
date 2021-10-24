@@ -60,6 +60,7 @@ public class commentController {
         notification.setReceiver(user1.getId());
         notification.setType(1);//typ 1级评论
         notification.setOuterid(questionById.getId());//问题id
+        notification.setStatus(0);
         int i = notificationService.addNotification(notification);
         System.out.println(notification);
         commentService.insert(comment);
